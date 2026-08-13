@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400..800&display=swap');
+@import url('https://fonts.cdnfonts.com/css/gilroy-bold');
+@import "tailwindcss";
+
+/* Оптимизированный скроллбар в :root и псевдоэлементах */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #050508;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F5F5F7;
+}
+
+@theme {
+    --prefix: tw;
+    --font-Unbounded: 'Unbounded', sans-serif;
+    --font-gilroy: 'gilroy', sans-serif;
+
+    --breakpoint-laptop-projects: 1024px;
+
+    --keyframes-edge-slide: {
+        to { 
+            opacity: 1; 
+            transform: translateX(0); 
+        }
+    }
+
+    --color-black: #0B0C10;
+    --color-white: #F5F5F7;
+    --color-brand: #3B82F6;
+
+
+    --animate-edge-slide: edge-slide 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+  }
+  @keyframes scrollBall {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; transform: translateY(8px); }
+    100% { opacity: 0; transform: translateY(8px); }
+}
+
+@media (min-width: 2000px) {
+  .desktop {
+    display: flex;
+  }
+
+  .macbook{
+    display: none;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+html{
+    scroll-behavior: smooth;
+    color-scheme: dark;
+}
+
+:root{
+    --whiteColor-- : #F5F5F7;
+    --blackColor-- : #0B0C10;
+    --blueColor--: #1A2B4C;
+    --greColor--: #868686;
+}
+
+/*
+    Классический приём "gradient border" (используется в Google/Gemini):
+    два фона на одном элементе —
+    1) сплошной цвет в padding-box (заливка самой кнопки)
+    2) градиент в border-box (виден только в полосе border)
+    Плавно двигаем background-position — переливание без искажений формы.
+  */
+  .gradient-border {
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    /*
+      Гардиент A,B,C,B,A — симметричный ("зеркальный"), поэтому его начало
+      и конец — один и тот же цвет. Это делает узор идеально периодичным.
+      Ключевое условие бесшовной анимации: дистанция сдвига в keyframes
+      должна ТОЧНО совпадать с шириной фона (background-size).
+      Здесь и там — 200%, поэтому конец цикла пиксель-в-пиксель
+      совпадает с его началом, без рывка.
+    */
+    background:
+      linear-gradient(#0B0C10, #0B0C10) padding-box,
+      linear-gradient(90deg, #0231BF, #4F7CFF, #7C3AED, #4F7CFF, #0231BF) border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: borderShift 4s linear infinite;
+  }
+ 
+  @keyframes borderShift {
+    0%   { background-position: 0% 0%, 0% 50%; }
+    100% { background-position: 0% 0%, 200% 50%; }
+  }
+ 
+  .bolt-pulse {
+    animation: pulse-bolt 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-bolt {
+    0%, 100% { filter: drop-shadow(0 0 0px #4F7CFF); }
+    50% { filter: drop-shadow(0 0 4px #4F7CFF); }
+  }
+
+  /* --- Твои существующие стили чата --- */
+
+/* Курсор для печатания */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: currentColor;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Индикатор "Печатает..." (пульсирующие точки) */
+.typing-indicator {
+  display: inline-flex;
+  gap: 3px;
+  padding: 4px 0;
+}
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { transform: scale(1); opacity: 0.4; }
+  40% { transform: scale(1.3); opacity: 1; }
+}

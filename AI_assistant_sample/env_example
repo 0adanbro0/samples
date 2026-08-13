@@ -1,0 +1,8 @@
+NODE_ENV=string         # или production
+PORT=number
+FRONTEND_URL=url, string
+TELEGRAM_BOT_TOKEN=string
+TELEGRAM_CHAT_ID=User telegram ID, number
+TOKEN_OPEN_ROUTER_AI=api key, string
+COOKIE_SECRET=string
+CURRENT_MODEL=any free/pay as you go model name, string                    #my opinion (absolutely free) - cohere/north-mini-code:free
